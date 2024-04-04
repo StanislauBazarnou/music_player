@@ -1,83 +1,55 @@
 package com.epam.music_player;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class MusicPlayer implements Player {
+@Getter
+public class MusicPlayer {
 
-    private final List<String> tracks;
-    private int currentTrackIndex;
-    private boolean isPaused;
-    private boolean isStopped;
-    private boolean isRepeat;
+    private PlayerState playingState;
+    private PlayerState pausedState;
+    private PlayerState stoppedState;
+    @Setter
+    private PlayerState state;
+    private List<String> tracks;
+    @Setter
+    private int currentTrackIndex = 0;
+    private boolean repeat;
 
     public MusicPlayer(List<String> tracks) {
-        this.tracks = tracks;
-        this.currentTrackIndex = 0;
-        this.isPaused = false;
-        this.isStopped = true;
-        this.isRepeat = false;
+        this.tracks = new ArrayList<>(tracks);
+        this.playingState = new PlayingState(this);
+        this.pausedState = new PausedState(this);
+        this.stoppedState = new StoppedState(this);
+        this.state = stoppedState;
+        this.repeat = false;
     }
 
-    @Override
+    public String currentTrack() {
+        return tracks.get(currentTrackIndex);
+    }
+
     public void playOrPause() {
-        if (isStopped) {
-            System.out.println("Playing: " + tracks.get(currentTrackIndex));
-            isStopped = false;
-            isPaused = false;
-        }
-        else if (isPaused) {
-            System.out.println("Resuming: " + tracks.get(currentTrackIndex));
-            isPaused = false;
-        }
-        else {
-            System.out.println("Pausing: " + tracks.get(currentTrackIndex));
-            isPaused = true;
-        }
+        state.playOrPause();
     }
 
-    @Override
     public void stop() {
-        if (isStopped) {
-            System.out.println("Already stopped");
-        }
-        else {
-            System.out.println("Stopping: " + tracks.get(currentTrackIndex));
-            isStopped = true;
-            isPaused = false;
-        }
+        state.stop();
     }
 
-    @Override
     public void next() {
-        if (currentTrackIndex == tracks.size() - 1) {
-            if (isRepeat) {
-                currentTrackIndex = 0;
-                System.out.println("Replaying first track: " + tracks.get(currentTrackIndex));
-            }
-            else {
-                System.out.println("Already on the last track");
-            }
-        }
-        else {
-            currentTrackIndex++;
-            System.out.println("Playing next track: " + tracks.get(currentTrackIndex));
-        }
+        state.next();
     }
 
-    @Override
     public void previous() {
-        if (currentTrackIndex == 0) {
-            System.out.println("Already on the first track");
-        }
-        else {
-            currentTrackIndex--;
-            System.out.println("Playing previous track: " + tracks.get(currentTrackIndex));
-        }
+        state.previous();
     }
 
-    @Override
     public void repeatOnOrOff() {
-        isRepeat = !isRepeat;
-        System.out.println(isRepeat ? "Repeat on" : "Repeat off");
+        repeat = !repeat;
+        System.out.println("Repeat is now " + (repeat ? "on" : "off"));
     }
 }
