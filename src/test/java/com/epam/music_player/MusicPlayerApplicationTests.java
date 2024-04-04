@@ -42,7 +42,7 @@ class MusicPlayerApplicationTests {
 
         player.playOrPause();
         assertEquals("Playing: Track 1" + System.lineSeparator() + "Pausing: Track 1" +
-                System.lineSeparator() + "Resuming: Track 1", outContent.toString().trim());
+                System.lineSeparator() + "Playing: Track 1", outContent.toString().trim());
     }
 
     @Test
@@ -52,7 +52,6 @@ class MusicPlayerApplicationTests {
         assertEquals("Playing: Track 1" + System.lineSeparator() +
                 "Stopping: Track 1", outContent.toString().trim());
     }
-
 
     @Test
     void testNext() {
@@ -71,10 +70,10 @@ class MusicPlayerApplicationTests {
     @Test
     void testRepeatOnOrOff() {
         player.repeatOnOrOff();
-        assertEquals("Repeat on", outContent.toString().trim());
+        assertEquals("Repeat is now on", outContent.toString().trim());
         player.repeatOnOrOff();
-        assertEquals("Repeat on" + System.lineSeparator() +
-                "Repeat off", outContent.toString().trim());
+        assertEquals("Repeat is now on" + System.lineSeparator() +
+                "Repeat is now off", outContent.toString().trim());
     }
 
 }
