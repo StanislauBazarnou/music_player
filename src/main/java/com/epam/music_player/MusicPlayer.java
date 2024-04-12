@@ -52,4 +52,8 @@ public class MusicPlayer {
         repeat = !repeat;
         System.out.println("Repeat is now " + (repeat ? "on" : "off"));
     }
+
+    public boolean isRepeatEnabled() {
+        return repeat;
+    }
 }

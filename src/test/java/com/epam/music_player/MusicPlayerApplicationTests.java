@@ -56,15 +56,15 @@ class MusicPlayerApplicationTests {
     @Test
     void testNext() {
         player.next();
-        assertEquals("Playing next track: Track 2", outContent.toString().trim());
+        assertEquals("Playing: Track 2", outContent.toString().trim());
     }
 
     @Test
     void testPrevious() {
         player.next();
         player.previous();
-        assertEquals("Playing next track: Track 2" + System.lineSeparator() +
-                "Playing previous track: Track 1", outContent.toString().trim());
+        assertEquals("Playing: Track 2" + System.lineSeparator() +
+                "Playing: Track 1", outContent.toString().trim());
     }
 
     @Test
@@ -74,6 +74,23 @@ class MusicPlayerApplicationTests {
         player.repeatOnOrOff();
         assertEquals("Repeat is now on" + System.lineSeparator() +
                 "Repeat is now off", outContent.toString().trim());
+    }
+
+    @Test
+    void testNextWithRepeat() {
+        player.repeatOnOrOff();
+        outContent.reset();
+
+        player.next();
+        assertEquals("Playing: Track 2", outContent.toString().trim());
+
+        outContent.reset();
+        player.next();
+        assertEquals("Playing: Track 3", outContent.toString().trim());
+
+        outContent.reset();
+        player.next();
+        assertEquals("Playing: Track 1", outContent.toString().trim());
     }
 
 }

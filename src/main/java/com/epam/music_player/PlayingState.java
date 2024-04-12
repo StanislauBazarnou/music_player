@@ -18,24 +18,24 @@ class PlayingState implements PlayerState {
     }
 
     public void next() {
-        int currentIndex = player.getCurrentTrackIndex();
-        if (currentIndex < player.getTracks().size() - 1) {
-            currentIndex++;
-            player.setCurrentTrackIndex(currentIndex);
-            System.out.println("Playing next track: " + player.currentTrack());
+        if (player.getCurrentTrackIndex() < player.getTracks().size() - 1) {
+            player.setCurrentTrackIndex(player.getCurrentTrackIndex() + 1);
+        } else if (player.isRepeatEnabled()) {
+            player.setCurrentTrackIndex(0);
         } else {
             System.out.println("Already on the last track");
         }
+        System.out.println("Playing: " + player.currentTrack());
     }
 
     public void previous() {
-        int currentIndex = player.getCurrentTrackIndex();
-        if (currentIndex > 0) {
-            currentIndex--;
-            player.setCurrentTrackIndex(currentIndex);
-            System.out.println("Playing previous track: " + player.currentTrack());
+        if (player.getCurrentTrackIndex() > 0) {
+            player.setCurrentTrackIndex(player.getCurrentTrackIndex() - 1);
+        } else if (player.isRepeatEnabled()) {
+            player.setCurrentTrackIndex(player.getTracks().size() - 1); // Goes to the end of the list
         } else {
             System.out.println("Already on the first track");
         }
+        System.out.println("Playing: " + player.currentTrack());
     }
 }
